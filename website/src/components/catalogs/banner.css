@@ -1,0 +1,23 @@
+#banner {
+    margin: 0px 15px 15px 0px;
+}
+
+@keyframes newAnim {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+#banner img {
+    max-width: 90%;
+    border-radius: 5px;
+    animation: newAnim 1s forwards;
+}
+
+#banner a.show {
+    text-align: center;
+    display: block;
+}
+
+#banner a.hide {
+    display: none;
+}

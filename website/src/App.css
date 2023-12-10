@@ -1,0 +1,100 @@
+body {
+
+    background-size: cover;
+    position: relative;
+    overflow-x: hidden;
+    /*для горизонтального*/
+}
+
+.navbar-nav {
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 30px;
+    font-weight: 1300;
+    color: #151515;
+    margin-right: 20px;
+}
+
+.salon-title {
+    text-decoration: none;
+    font-weight: bold;
+    font-family: cursive;
+    color: #151515;
+    font-size: 19px;
+}
+
+.footer {
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin-bottom: 100%;
+}
+
+#banner {
+    margin: 15px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    min-height: 700px;
+}
+
+#banner img {
+    border-radius: 5px;
+}
+
+#banner img.show {
+    height: 700px;
+    width: 95%;
+    opacity: 1;
+    transition: opacity 1s, visibility 0s;
+}
+
+#banner img.hide {
+    height: 0;
+    width: 0;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 1s, visibility 0s 1s;
+}
+
+.product__image-wrapper {
+    margin-bottom: 40px;
+}
+
+.product__image {
+    border-radius: 10px;
+    display: block;
+    margin: 0 auto;
+    height: 190px;
+    width: 190px;
+}
+
+.product__body {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.product__name {
+    color: #000000;
+    font-size: 20px;
+    margin-bottom: 0px;
+}
+
+.product__price {
+    font-size: 18px;
+    text-align: center;
+}
+
+.product__time {
+    font-size: 18px;
+    text-align: center;
+}
+
+.form-in-modal {
+    display: none;
+}
+
+.form-in-modal_active {
+    display: block;
+}
