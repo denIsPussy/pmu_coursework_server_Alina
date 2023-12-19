@@ -1,22 +1,6 @@
 package com.labwork01.app;
 
-import com.labwork01.app.flower.FlowerType;
-import com.labwork01.app.flower.model.Flower;
-import com.labwork01.app.flower.service.FlowerService;
-import com.labwork01.app.order.model.Order;
-import com.labwork01.app.provider.model.Provider;
-import com.labwork01.app.provider.service.ProviderService;
-import jakarta.persistence.EntityNotFoundException;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 public class JpaProviderTests {

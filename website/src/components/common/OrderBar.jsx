@@ -9,8 +9,8 @@ export default function OrderBar(props) {
   }
 
   const findFlowerById = (flowers, id) => {
-    const flower = flowers.find((flower1) => flower1.id === id);
-    return flower ? flower.id + ". Название: " + flower.name + " | Цена: " + flower.price + " | Тип:" + flower.type : null;
+    const bouquet = flowers.find((flower1) => flower1.id === id);
+    return bouquet ? bouquet.id + ". Название: " + bouquet.name + " | Цена: " + bouquet.price + " | Тип:" + bouquet.type : null;
   };
 
   return (
@@ -30,9 +30,9 @@ export default function OrderBar(props) {
               <select id="" className="form-select" value=''>
                 <option disabled value=''></option>
                 {
-                  item.orderFlower.map((flower) =>
-                    <option key={flower.flowerId} value={flower.flowerId}>
-                      {findFlowerById(props.itemssssssss, flower.flowerId)}
+                  item.orderFlower.map((bouquet) =>
+                    <option key={bouquet.flowerId} value={bouquet.flowerId}>
+                      {findFlowerById(props.itemssssssss, bouquet.flowerId)}
                     </option>
                   )
                 }

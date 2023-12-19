@@ -14,7 +14,7 @@ export default function Providers(props) {
     const [isVisible, setVisible] = useState('');
 
     const [sum1, setSum] = useState('');
-    const [flower, setFlower] = useState('');
+    const [bouquet, setFlower] = useState('');
     const [quantity, setQuantity] = useState('');
     const [orderItems, setOrderItems] = useState([]);
 
@@ -24,7 +24,7 @@ export default function Providers(props) {
 
     const handleFlowerChange = (e) => {
         const selectedFlowerId = e.target.value;
-        const selectedFlower = flowers.find((flower) => flower.id == selectedFlowerId);
+        const selectedFlower = flowers.find((bouquet) => bouquet.id == selectedFlowerId);
         setFlower(selectedFlower);
         setQuantity(orderItems.map((orderItems) => orderItems.flowerId === selectedFlower.id ? orderItems.quantity : null));
     };
@@ -34,48 +34,48 @@ export default function Providers(props) {
     };
 
     const handleAddToOrder = () => {
-        if (flower && quantity) {
+        if (bouquet && quantity) {
             const listSelectedFlower = orderItems.map(orderItem => orderItem.flowerId);
 
-            if (listSelectedFlower.includes(flower.id)) {
+            if (listSelectedFlower.includes(bouquet.id)) {
                 setOrderItems((prevOrderItems) =>
                     prevOrderItems.map((item) =>
-                        item.flowerId === flower.id ? { ...item, quantity: quantity } : item
+                        item.flowerId === bouquet.id ? { ...item, quantity: quantity } : item
                     )
                 );
 
             }
             else {
                 const newItem = {
-                    flowerId: flower.id,
+                    flowerId: bouquet.id,
                     quantity: quantity
                 };
                 setOrderItems([...orderItems, new OrderFlower(newItem)]);
             }
-            //const newQuantity = orderItems.map((orderItem) => orderItem.flowerId === flower.Id ? orderItem.quantity : null);
-            //const sum = Number(newQuantity) * Number(flower?.price);
+            //const newQuantity = orderItems.map((orderItem) => orderItem.flowerId === bouquet.Id ? orderItem.quantity : null);
+            //const sum = Number(newQuantity) * Number(bouquet?.price);
             setData((prevData) => ({
                 ...prevData,
-                sum: prevData.sum + Number(flower?.price * quantity)
+                sum: prevData.sum + Number(bouquet?.price * quantity)
             }));
-            setSum((prevSum) => prevSum + Number(flower?.price * quantity));
+            setSum((prevSum) => prevSum + Number(bouquet?.price * quantity));
             setFlower('');
             setQuantity('');
         }
     };
 
     const handleRemoveFromOrder = () => {
-        if (flower) {
+        if (bouquet) {
             setOrderItems((prevOrderItems) =>
                 prevOrderItems.filter((item) =>
-                    item.flowerId !== flower.id
+                    item.flowerId !== bouquet.id
                 )
             );
             setData((prevData) => ({
                 ...prevData,
-                sum: prevData.sum - Number(flower?.price * quantity)
+                sum: prevData.sum - Number(bouquet?.price * quantity)
             }));
-            setSum((prevSum) => prevSum - Number(flower?.price * quantity));
+            setSum((prevSum) => prevSum - Number(bouquet?.price * quantity));
             setFlower('');
             setQuantity('');
         }
@@ -86,7 +86,7 @@ export default function Providers(props) {
     }, []);
 
     const loadFlowers = async function () {
-        const requestUrl = "http://localhost:8080" + "/flower";
+        const requestUrl = "http://localhost:8080" + "/bouquet";
         const response = await fetch(requestUrl);
         const flowers = await response.json();
         setFlowers(flowers);
@@ -153,12 +153,12 @@ export default function Providers(props) {
                             onChange={handleFormChange}
                             readOnly
                         />
-                        <select id="" className="form-select" value={flower.id} onChange={handleFlowerChange}>
+                        <select id="" className="form-select" value={bouquet.id} onChange={handleFlowerChange}>
                             <option value=''>  Выберите цветок </option>
                             {
-                                flowers.map((flower) =>
-                                    <option key={flower.id} value={flower.id}>
-                                        {flower.id} : {flower.name}
+                                flowers.map((bouquet) =>
+                                    <option key={bouquet.id} value={bouquet.id}>
+                                        {bouquet.id} : {bouquet.name}
                                     </option>
                                 )
                             }

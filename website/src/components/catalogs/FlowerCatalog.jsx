@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
 import Catalog from "./Catalog";
-import Flower from "../../models/FlowerDTO";
+import bouquet from "../../models/FlowerDTO";
 import FlowerBar from "../common/FlowerBar";
 export default function Providers(props) {
 
-  const entity_name = 'flower';
-  const transformer = (data) => new Flower(data);
-  const [data, setData] = useState(new Flower());
+  const entity_name = 'bouquet';
+  const transformer = (data) => new bouquet(data);
+  const [data, setData] = useState(new bouquet());
   const [providers, setProviders] = useState([]);
   const [selectedItems, setSelectedItems] = useState([]);
 
@@ -35,11 +35,11 @@ export default function Providers(props) {
   }
 
   function handleOnAdd() {
-    setData(new Flower());
+    setData(new bouquet());
   }
 
   function handleOnEdit(data) {
-    setData(new Flower(data));
+    setData(new bouquet(data));
   }
 
   function handleFormChange(event) {

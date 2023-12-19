@@ -1,0 +1,52 @@
+package com.labwork01.app.user.service;
+
+import com.labwork01.app.user.model.User;
+import com.labwork01.app.user.model.UserDTO;
+import com.labwork01.app.user.repository.UserRepository;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.Optional;
+
+@Service
+public class UserService {
+    private final UserRepository userRepository;
+
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+    @Transactional
+    public User insert(UserDTO userDTO) {
+        User user = new User(userDTO);
+        return userRepository.save(user);
+    }
+    @Transactional
+    public User delete(Long id) {
+        User user = findById(id);
+        userRepository.delete(user);
+        return user;
+    }
+    @Transactional
+    public void deleteAll() {
+        userRepository.deleteAll();
+    }
+    @Transactional
+    public User findById(Long id) {
+        Optional<User> user = userRepository.findById(id);
+        return user.orElse(null);
+    }
+    @Transactional
+    public List<User> findAll() {
+        return userRepository.findAll();
+    }
+    @Transactional
+    public User update(UserDTO userDTO) {
+        User user = findById(userDTO.getId());
+        user.setUserName(userDTO.getUserName());
+        user.setDateOfBirth(userDTO.getDateOfBirth());
+        user.setPhoneNumber(userDTO.getPhoneNumber());
+        user.setPassword(userDTO.getPassword());
+        return userRepository.save(user);
+    }
+}

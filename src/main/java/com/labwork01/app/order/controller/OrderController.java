@@ -1,7 +1,6 @@
 package com.labwork01.app.order.controller;
 
-import com.labwork01.app.flower.model.FlowerDTO;
-import com.labwork01.app.flower.service.FlowerService;
+import com.labwork01.app.bouquet.model.BouquetDTO;
 import com.labwork01.app.order.model.OrderDTO;
 import com.labwork01.app.order.service.OrderService;
 import org.springframework.web.bind.annotation.*;
@@ -19,19 +18,24 @@ public class OrderController {
 
     @GetMapping("/{id}")
     public OrderDTO getOrder(@PathVariable Long id) {
-        return new OrderDTO(orderService.findOrder(id));
+        return new OrderDTO(orderService.findById(id));
+    }
+
+    @GetMapping("/byUser{id}")
+    public List<OrderDTO> getByUserId(@PathVariable Long id) {
+        return orderService.findByUserId(id).stream().map(OrderDTO::new).toList();
     }
 
     @GetMapping
     public List<OrderDTO> getOrders() {
-        return orderService.findAllOrders().stream()
+        return orderService.findAll().stream()
                 .map(OrderDTO::new)
                 .toList();
     }
 
     @PostMapping
     public OrderDTO createOrder(@RequestBody OrderDTO orderDTO) {
-         return new OrderDTO(orderService.addOrder(orderDTO));
+         return new OrderDTO(orderService.insert(orderDTO));
     }
 
     @PutMapping("/{id}")
@@ -41,6 +45,6 @@ public class OrderController {
 
     @DeleteMapping("/{id}")
     public OrderDTO deleteOrder(@PathVariable Long id) {
-        return new OrderDTO(orderService.deleteOrder(id));
+        return new OrderDTO(orderService.delete(id));
     }
 }
