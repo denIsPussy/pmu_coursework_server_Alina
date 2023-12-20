@@ -20,7 +20,7 @@ public class Bouquet {
     public Bouquet() {
     }
 
-    @ManyToMany(mappedBy = "bouquets", cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "bouquets")
     private List<Order> orders = new ArrayList<>();
 
     public Bouquet(String name, int quantityOfFlowers, int price, byte[] image) {

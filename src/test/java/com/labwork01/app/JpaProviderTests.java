@@ -108,19 +108,16 @@ public class JpaProviderTests {
         bouquet1 = bouquetService.insert(new BouquetDTO(bouquet1));
         bouquet2 = bouquetService.insert(new BouquetDTO(bouquet2));
 
-        Order order1 = new Order("2023-04-11", 100, Arrays.asList(bouquet1, bouquet2));
-        Order order2 = new Order("2023-04-10", 100, Arrays.asList(bouquet1, bouquet2));
-        order1 = orderService.insert(new OrderDTO(order1));
-        order2 = orderService.insert(new OrderDTO(order2));
 
         User user = new User("Alina", "23.09.2005", "89278362447", "123");
         user = userService.insert(new UserDTO(user));
 
-        User userWithOrders = user;
-        userWithOrders.setOrders(Arrays.asList(order1, order2));
+        Order order1 = new Order("2023-04-11", 100, Arrays.asList(bouquet1, bouquet2), user);
+        Order order2 = new Order("2023-04-10", 100, Arrays.asList(bouquet1, bouquet2), user);
+        order1 = orderService.insert(new OrderDTO(order1));
+        order2 = orderService.insert(new OrderDTO(order2));
 
-        userWithOrders = userService.addOrdersToUser(new UserDTO(userWithOrders));
-        User updatedUser = userService.findById(userWithOrders.getId());
+        User updatedUser = userService.findById(user.getId());
         assertEquals(2, updatedUser.getOrders().size());
     }
 
@@ -134,20 +131,15 @@ public class JpaProviderTests {
         bouquet1 = bouquetService.insert(new BouquetDTO(bouquet1));
         bouquet2 = bouquetService.insert(new BouquetDTO(bouquet2));
 
-        Order order1 = new Order("2023-04-11", 100, Arrays.asList(bouquet1, bouquet2));
-        Order order2 = new Order("2023-04-10", 100, Arrays.asList(bouquet1, bouquet2));
-        order1 = orderService.insert(new OrderDTO(order1));
-        order2 = orderService.insert(new OrderDTO(order2));
-
         User user = new User("Alina", "23.09.2005", "89278362447", "123");
         user = userService.insert(new UserDTO(user));
 
-        User userWithOrders = user;
-        userWithOrders.setOrders(Arrays.asList(order1, order2));
-
-        userWithOrders = userService.addOrdersToUser(new UserDTO(userWithOrders));
-        userWithOrders = userService.removeOrder(new UserDTO(userWithOrders));
-        User updatedUser = userService.findById(userWithOrders.getId());
+        Order order1 = new Order("2023-04-11", 100, Arrays.asList(bouquet1, bouquet2), user);
+        Order order2 = new Order("2023-04-10", 100, Arrays.asList(bouquet1, bouquet2), user);
+        order1 = orderService.insert(new OrderDTO(order1));
+        order2 = orderService.insert(new OrderDTO(order2));
+        user = userService.removeOrdersFromUser(user, Arrays.asList(order1, order2));
+        User updatedUser = userService.findById(user.getId());
         assertEquals(0, updatedUser.getOrders().size());
     }
 }

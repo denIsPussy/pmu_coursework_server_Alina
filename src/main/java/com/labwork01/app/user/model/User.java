@@ -6,7 +6,6 @@ import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 @Entity(name="users")
 public class User {
@@ -22,7 +21,7 @@ public class User {
     @Column(nullable = true)
     private String password;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private List<Order> orders = new ArrayList<>();
 
     public User() {
@@ -49,7 +48,6 @@ public class User {
         this.dateOfBirth = userDTO.getDateOfBirth();
         this.password = userDTO.getPassword();
         this.phoneNumber = userDTO.getPhoneNumber();
-        this.orders = userDTO.getOrders() != null ? userDTO.getOrders().stream().map(Order::new).collect(Collectors.toList()) : null;
     }
 
     public Long getId() {

@@ -15,30 +15,32 @@ public class Order {
     private Long id;
     private String date;
     private Integer sum;
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany()
     @JoinTable(
             name = "order_bouquet",
             joinColumns = @JoinColumn(name = "order_id"),
             inverseJoinColumns = @JoinColumn(name = "bouquet_id")
     )
     private List<Bouquet> bouquets = new ArrayList<>();
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne()
     @JoinColumn(name = "userId")
     private User user;
 
     public Order() {
     }
 
-    public Order(String date, Integer sum, List<Bouquet> bouquets) {
+    public Order(String date, Integer sum, List<Bouquet> bouquets, User user) {
         this.date = date;
         this.sum = sum;
         this.bouquets = bouquets;
+        this.user = user;
     }
 
     public Order(OrderDTO orderDTO) {
         this.id = orderDTO.getId();
         this.date = orderDTO.getDate();
         this.sum = orderDTO.getSum();
+        this.user = new User(orderDTO.getUser());
     }
 
     public Long getId() {
