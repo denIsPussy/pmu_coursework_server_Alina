@@ -4,9 +4,9 @@ import com.labwork01.app.bouquet.model.Bouquet;
 import com.labwork01.app.user.model.User;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 @Entity(name = "orders")
 public class Order {
@@ -15,30 +15,30 @@ public class Order {
     private Long id;
     private String date;
     private Integer sum;
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "order_bouquet",
             joinColumns = @JoinColumn(name = "order_id"),
             inverseJoinColumns = @JoinColumn(name = "bouquet_id")
     )
-    private List<Bouquet> bouquets;
-    @ManyToOne()
+    private List<Bouquet> bouquets = new ArrayList<>();
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "userId")
     private User user;
 
     public Order() {
     }
 
-    public Order(String date, Integer sum) {
+    public Order(String date, Integer sum, List<Bouquet> bouquets) {
         this.date = date;
         this.sum = sum;
+        this.bouquets = bouquets;
     }
 
-    public Order(OrderDTO order) {
-        this.id = order.getId();
-        this.date = order.getDate();
-        this.sum = order.getSum();
-        this.bouquets = order.getBouquets() != null ? order.getBouquets().stream().map(Bouquet::new).collect(Collectors.toList()) : null;
+    public Order(OrderDTO orderDTO) {
+        this.id = orderDTO.getId();
+        this.date = orderDTO.getDate();
+        this.sum = orderDTO.getSum();
     }
 
     public Long getId() {
@@ -74,6 +74,10 @@ public class Order {
     }
 
     public void setUser(User user) {
+        this.user = user;
+    }
+
+    public void addUser(User user) {
         this.user = user;
         user.addOrder(this);
     }

@@ -1,9 +1,9 @@
 package com.labwork01.app.user.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.labwork01.app.order.model.OrderDTO;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class UserDTO {
     private Long id;
@@ -11,6 +11,7 @@ public class UserDTO {
     private String dateOfBirth;
     private String phoneNumber;
     private String password;
+    private List<OrderDTO> orders;
     public UserDTO(){
 
     }
@@ -20,6 +21,7 @@ public class UserDTO {
         this.dateOfBirth = user.getDateOfBirth();
         this.phoneNumber = user.getPhoneNumber();
         this.password = user.getPassword();
+        this.orders = user.getOrders() != null ? user.getOrders().stream().map(OrderDTO::new).collect(Collectors.toList()) : null;
     }
 
     public Long getId() {
@@ -40,5 +42,8 @@ public class UserDTO {
 
     public String getPassword() {
         return password;
+    }
+    public List<OrderDTO> getOrders() {
+        return orders;
     }
 }

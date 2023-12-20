@@ -18,7 +18,6 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 public class JpaFlowerTests {
     private static final Logger log = LoggerFactory.getLogger(JpaFlowerTests.class);
-    private Bouquet bouquet = new Bouquet("bouquet1", 1, 1, new byte[]{ 10, 20, 30, 40, 50 });
     @Autowired
     private BouquetService bouquetService;
 
@@ -49,6 +48,7 @@ public class JpaFlowerTests {
     @Test
     public void testFindAllBouquets() {
         bouquetService.deleteAll();
+        Bouquet bouquet = new Bouquet("bouquet1", 1, 1, new byte[]{ 10, 20, 30, 40, 50 });
         Bouquet createdbouquet = bouquetService.insert(new BouquetDTO(bouquet));
         List<Bouquet> bouquets = bouquetService.findAll();
         assertNotNull(bouquets);
@@ -63,21 +63,21 @@ public class JpaFlowerTests {
     @Test
     public void testUpdateBouquet() {
         bouquetService.deleteAll();
+        Bouquet bouquet = new Bouquet("bouquet1", 1, 1, new byte[]{ 10, 20, 30, 40, 50 });
         Bouquet createdBouquet = bouquetService.insert(new BouquetDTO(bouquet));
         createdBouquet.setName("New Bouquet Name");
         createdBouquet.setPrice(100);
-        // Другие изменения свойств, если нужно
         Bouquet updatedBouquet = bouquetService.update(new BouquetDTO(createdBouquet));
         assertNotNull(updatedBouquet);
         assertEquals(createdBouquet.getId(), updatedBouquet.getId());
         assertEquals(createdBouquet.getName(), updatedBouquet.getName());
         assertEquals(createdBouquet.getPrice(), updatedBouquet.getPrice());
-        // Проверка других свойств
     }
 
     @Test
     public void testDeleteBouquet() {
         bouquetService.deleteAll();
+        Bouquet bouquet = new Bouquet("bouquet1", 1, 1, new byte[]{ 10, 20, 30, 40, 50 });
         Bouquet createdBouquet = bouquetService.insert(new BouquetDTO(bouquet));
         assertNotNull(createdBouquet.getId());
         bouquetService.delete(createdBouquet.getId());
@@ -87,6 +87,7 @@ public class JpaFlowerTests {
     @Test
     public void testDeleteAllBouquets() {
         bouquetService.deleteAll();
+        Bouquet bouquet = new Bouquet("bouquet1", 1, 1, new byte[]{ 10, 20, 30, 40, 50 });
         bouquetService.insert(new BouquetDTO(bouquet));
         bouquetService.deleteAll();
         List<Bouquet> bouquets = bouquetService.findAll();

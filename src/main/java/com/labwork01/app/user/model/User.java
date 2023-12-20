@@ -3,8 +3,10 @@ package com.labwork01.app.user.model;
 import com.labwork01.app.order.model.Order;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Entity(name="users")
 public class User {
@@ -20,8 +22,8 @@ public class User {
     @Column(nullable = true)
     private String password;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Order> orders;
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<Order> orders = new ArrayList<>();
 
     public User() {
     }
@@ -33,11 +35,21 @@ public class User {
         this.password = password;
     }
 
+    public User(String userName, String dateOfBirth, String phoneNumber, String password, List<Order> orders) {
+        this.userName = userName;
+        this.dateOfBirth = dateOfBirth;
+        this.phoneNumber = phoneNumber;
+        this.password = password;
+        this.orders = orders;
+    }
+
     public User(UserDTO userDTO) {
+        this.id = userDTO.getId();
         this.userName = userDTO.getUserName();
         this.dateOfBirth = userDTO.getDateOfBirth();
         this.password = userDTO.getPassword();
         this.phoneNumber = userDTO.getPhoneNumber();
+        this.orders = userDTO.getOrders() != null ? userDTO.getOrders().stream().map(Order::new).collect(Collectors.toList()) : null;
     }
 
     public Long getId() {
@@ -91,7 +103,7 @@ public class User {
 
     public void removeOrder(Order order){
         orders.remove(order);
-        order.removeUser();
+        order.setUser(null);
     }
 
     @Override

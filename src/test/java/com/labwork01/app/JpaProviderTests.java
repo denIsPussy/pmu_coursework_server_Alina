@@ -1,99 +1,153 @@
 package com.labwork01.app;
 
+import com.labwork01.app.bouquet.model.Bouquet;
+import com.labwork01.app.bouquet.model.BouquetDTO;
+import com.labwork01.app.bouquet.service.BouquetService;
+import com.labwork01.app.order.model.Order;
+import com.labwork01.app.order.model.OrderDTO;
+import com.labwork01.app.order.service.OrderService;
+import com.labwork01.app.user.model.User;
+import com.labwork01.app.user.model.UserDTO;
+import com.labwork01.app.user.service.UserService;
+import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import java.util.Arrays;
+import java.util.List;
+
+import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 public class JpaProviderTests {
-//    private static final Logger log = LoggerFactory.getLogger(JpaProviderTests.class);
-//    @Autowired
-//    private ProviderService providerService;
-//    @Autowired
-//    private FlowerService flowerService;
-//    @Test
-//    public void testCreateProvider() {
-//        providerService.deleteAllProviders();
-//        Provider testProvider = new Provider("Denis", "Musoev");
-//        Provider createdProvider = providerService.createProvider(testProvider);
-//        assertNotNull(createdProvider);
-//        assertNotNull(createdProvider.getId());
-//        assertEquals(testProvider.getName(), createdProvider.getName());
-//    }
-//
-//    @Test
-//    public void testDeleteProvider() {
-//        providerService.deleteAllProviders();
-//        Provider testProvider = new Provider("Denis", "Musoev");
-//        Provider createdProvider = providerService.createProvider(testProvider);
-//        providerService.deleteProvider(createdProvider.getId());
-//        assertNull(providerService.findProvider(createdProvider.getId()));
-//    }
-//
-//    @Test
-//    public void testDeleteAllProviders() {
-//        providerService.deleteAllProviders();
-//        providerService.deleteAllProviders();
-//        List<Provider> providers = providerService.findAllProviders();
-//        assertTrue(providers.isEmpty());
-//    }
-//
-//    @Test
-//    public void testFindProvider() {
-//        providerService.deleteAllProviders();
-//        Provider testProvider = new Provider("Denis", "Musoev");
-//        Provider createdProvider = providerService.createProvider(testProvider);
-//        Provider foundProvider = providerService.findProvider(createdProvider.getId());
-//        assertNotNull(foundProvider);
-//        assertEquals(createdProvider.getId(), foundProvider.getId());
-//        assertEquals(createdProvider.getName(), foundProvider.getName());
-//    }
-//
-//    @Test
-//    public void testFindAllProviders() {
-//        providerService.deleteAllProviders();
-//        Provider testProvider1 = new Provider("Denis", "Musoev");
-//        Provider testProvider2 = new Provider("Alina", "Batylkina");
-//        providerService.createProvider(testProvider1);
-//        providerService.createProvider(testProvider2);
-//        List<Provider> providers = providerService.findAllProviders();
-//        assertEquals(2, providers.size());
-//    }
-//
-//    @Test
-//    public void testUpdateProvider() {
-//        providerService.deleteAllProviders();
-//        Provider testProvider = new Provider("Denis", "Musoev");
-//        Provider createdProvider = providerService.createProvider(testProvider);
-//        createdProvider.setName("Updated Provider");
-//        Provider updatedProvider = providerService.updateProvider(createdProvider);
-//        assertNotNull(updatedProvider);
-//        assertEquals(createdProvider.getId(), updatedProvider.getId());
-//        assertEquals(createdProvider.getName(), updatedProvider.getName());
-//    }
-//
-//    @Test
-//    public void testAddFlower() {
-//        Flower flower = new Flower("Rose", 10, FlowerType.Высокорослые);
-//        flowerService.createFlower(flower);
-//        Provider provider = new Provider("Denis", "Musoev");
-//        providerService.createProvider(provider);
-//        provider.addFlower(flower);
-//        providerService.updateProvider(provider);
-//        Provider updatedProvider = providerService.findProvider(provider.getId());
-//        assertEquals(1, updatedProvider.getFlowers().size());
-//    }
-//
-//    @Test
-//    public void testRemoveFlower() {
-//        Flower flower = new Flower("Rose", 10, FlowerType.Высокорослые);
-//        flowerService.createFlower(flower);
-//        Provider provider = new Provider("Denis", "Musoev");
-//        providerService.createProvider(provider);
-//        provider.addFlower(flower);
-//        providerService.updateProvider(provider);
-//        Provider updatedProvider = providerService.findProvider(provider.getId());
-//        updatedProvider.removeFlower(flower);
-//        providerService.updateProvider(updatedProvider);
-//        Provider removedFlowerProvider = providerService.findProvider(updatedProvider.getId());
-//        assertEquals(0, removedFlowerProvider.getFlowers().size());
-//    }
+    private static final Logger log = LoggerFactory.getLogger(JpaProviderTests.class);
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private OrderService orderService;
+    @Autowired
+    private BouquetService bouquetService;
+    @Test
+    public void testCreateUser() {
+        userService.deleteAll();
+        User user = new User("Alina", "23.09.2005", "89278362447", "123");
+        user = userService.insert(new UserDTO(user));
+        User foundUser = userService.findById(user.getId());
+        assertNotNull(foundUser);
+        assertNotNull(foundUser.getId());
+        assertEquals(user.getUserName(), foundUser.getUserName());
+    }
+
+    @Test
+    public void testDeleteUser() {
+        userService.deleteAll();
+        User user = new User("Alina", "23.09.2005", "89278362447", "123");
+        user = userService.insert(new UserDTO(user));
+        userService.delete(user.getId());
+        User foundUser = userService.findById(user.getId());
+        assertNull(foundUser);
+    }
+
+    @Test
+    public void testDeleteAllUsers() {
+        userService.deleteAll();
+        User user = new User("Alina", "23.09.2005", "89278362447", "123");
+        User user1 = new User("Denis", "23.09.2005", "89278362447", "123");
+        user = userService.insert(new UserDTO(user));
+        user = userService.insert(new UserDTO(user1));
+        userService.deleteAll();
+        List<User> users = userService.findAll();
+        assertTrue(users.isEmpty());
+    }
+
+    @Test
+    public void testFindUser() {
+        userService.deleteAll();
+        User user = new User("Alina", "23.09.2005", "89278362447", "123");
+        user = userService.insert(new UserDTO(user));
+        User foundUser = userService.findById(user.getId());
+        assertNotNull(foundUser);
+        assertEquals(user.getId(), foundUser.getId());
+        assertEquals(user.getUserName(), foundUser.getUserName());
+    }
+
+    @Test
+    public void testFindAllProviders() {
+        userService.deleteAll();
+        User user = new User("Alina", "23.09.2005", "89278362447", "123");
+        User user1 = new User("Denis", "23.09.2005", "89278362447", "123");
+        user = userService.insert(new UserDTO(user));
+        user1 = userService.insert(new UserDTO(user1));
+        assertEquals(2, userService.findAll().size());
+    }
+
+    @Test
+    public void testUpdateUser() {
+        userService.deleteAll();
+        User user = new User("Alina", "23.09.2005", "89278362447", "123");
+        user = userService.insert(new UserDTO(user));
+        user.setUserName("Denis");
+        user.setPhoneNumber("89021227351");
+        user = userService.update(new UserDTO(user));
+        User updateUser = new User("Denis", "23.09.2005", "89021227351", "123");
+        assertNotNull(updateUser);
+        assertEquals(user.getUserName(), updateUser.getUserName());
+        assertEquals(user.getPhoneNumber(), updateUser.getPhoneNumber());
+    }
+
+    @Test
+    public void testAddOrder() {
+        userService.deleteAll();
+        orderService.deleteAll();
+
+        Bouquet bouquet1 = new Bouquet("bouquet1", 1, 1, new byte[]{ 10, 20, 30, 40, 50 });
+        Bouquet bouquet2 = new Bouquet("bouquet2", 1, 1, new byte[]{ 10, 20, 30, 40, 50 });
+        bouquet1 = bouquetService.insert(new BouquetDTO(bouquet1));
+        bouquet2 = bouquetService.insert(new BouquetDTO(bouquet2));
+
+        Order order1 = new Order("2023-04-11", 100, Arrays.asList(bouquet1, bouquet2));
+        Order order2 = new Order("2023-04-10", 100, Arrays.asList(bouquet1, bouquet2));
+        order1 = orderService.insert(new OrderDTO(order1));
+        order2 = orderService.insert(new OrderDTO(order2));
+
+        User user = new User("Alina", "23.09.2005", "89278362447", "123");
+        user = userService.insert(new UserDTO(user));
+
+        User userWithOrders = user;
+        userWithOrders.setOrders(Arrays.asList(order1, order2));
+
+        userWithOrders = userService.addOrdersToUser(new UserDTO(userWithOrders));
+        User updatedUser = userService.findById(userWithOrders.getId());
+        assertEquals(2, updatedUser.getOrders().size());
+    }
+
+    @Test
+    public void testRemoveOrder() {
+        userService.deleteAll();
+        orderService.deleteAll();
+
+        Bouquet bouquet1 = new Bouquet("bouquet1", 1, 1, new byte[]{ 10, 20, 30, 40, 50 });
+        Bouquet bouquet2 = new Bouquet("bouquet2", 1, 1, new byte[]{ 10, 20, 30, 40, 50 });
+        bouquet1 = bouquetService.insert(new BouquetDTO(bouquet1));
+        bouquet2 = bouquetService.insert(new BouquetDTO(bouquet2));
+
+        Order order1 = new Order("2023-04-11", 100, Arrays.asList(bouquet1, bouquet2));
+        Order order2 = new Order("2023-04-10", 100, Arrays.asList(bouquet1, bouquet2));
+        order1 = orderService.insert(new OrderDTO(order1));
+        order2 = orderService.insert(new OrderDTO(order2));
+
+        User user = new User("Alina", "23.09.2005", "89278362447", "123");
+        user = userService.insert(new UserDTO(user));
+
+        User userWithOrders = user;
+        userWithOrders.setOrders(Arrays.asList(order1, order2));
+
+        userWithOrders = userService.addOrdersToUser(new UserDTO(userWithOrders));
+        userWithOrders = userService.removeOrder(new UserDTO(userWithOrders));
+        User updatedUser = userService.findById(userWithOrders.getId());
+        assertEquals(0, updatedUser.getOrders().size());
+    }
 }
