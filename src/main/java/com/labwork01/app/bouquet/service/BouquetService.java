@@ -4,6 +4,8 @@ import com.labwork01.app.bouquet.model.Bouquet;
 import com.labwork01.app.bouquet.model.BouquetDTO;
 import com.labwork01.app.bouquet.repository.BouquetRepository;
 import com.labwork01.app.order.repository.OrderRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -39,8 +41,8 @@ public class BouquetService {
         return bouquetRepository.findById(id).orElse(null);
     }
     @Transactional
-    public List<Bouquet> findAll() {
-        return bouquetRepository.findAll();
+    public Page<Bouquet> findAll(Pageable pageable) {
+        return bouquetRepository.findAll(pageable);
     }
     @Transactional
     public Bouquet update(BouquetDTO bouquetDTO) {

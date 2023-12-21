@@ -1,10 +1,15 @@
 package com.labwork01.app.bouquet.controller;
 
+import com.labwork01.app.bouquet.model.Bouquet;
 import com.labwork01.app.bouquet.model.BouquetDTO;
 import com.labwork01.app.bouquet.service.BouquetService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/bouquet")
@@ -26,10 +31,14 @@ public class BouquetController {
     }
 
     @GetMapping
-    public List<BouquetDTO> getAll() {
-        return bouquetService.findAll().stream()
+    public List<BouquetDTO> getBouquets(
+            @RequestParam(value = "_page", defaultValue = "0") int page,
+            @RequestParam(value = "_limit", defaultValue = "10") int limit) {
+        Pageable pageable = PageRequest.of(page - 1, limit);
+        Page<Bouquet> bouquetPage = bouquetService.findAll(pageable);
+        return bouquetPage.getContent().stream()
                 .map(BouquetDTO::new)
-                .toList();
+                .collect(Collectors.toList());
     }
 
     @PostMapping

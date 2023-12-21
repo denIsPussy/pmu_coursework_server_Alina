@@ -20,6 +20,11 @@ public class UserController {
         return new UserDTO(userService.findById(id));
     }
 
+    @GetMapping("/byUserName")
+    public UserDTO getUserByName(@RequestParam("userName") String userName) {
+        return new UserDTO(userService.findByUserName(userName));
+    }
+
     @GetMapping
     public List<UserDTO> getUsers() {
         return userService.findAll().stream()

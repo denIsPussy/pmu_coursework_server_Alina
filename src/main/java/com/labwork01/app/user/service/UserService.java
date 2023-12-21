@@ -41,6 +41,11 @@ public class UserService {
         return user.orElse(null);
     }
     @Transactional
+    public User findByUserName(String userName) {
+        return userRepository.findByUserName(userName);
+    }
+
+    @Transactional
     public List<User> findAll() {
         return userRepository.findAll();
     }

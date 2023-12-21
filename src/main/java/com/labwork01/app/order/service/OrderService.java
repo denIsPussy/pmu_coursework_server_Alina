@@ -48,28 +48,6 @@ public class OrderService {
     }
 
     @Transactional
-    public Order insert1(OrderDTO orderDTO) {
-        if (orderDTO == null) {
-            throw new IllegalArgumentException("OrderDTO cannot be null");
-        }
-        Order order = new Order(orderDTO);
-
-        if (orderDTO.getBouquets() != null) {
-            List<Bouquet> bouquets = orderDTO.getBouquets().stream()
-                    .map(Bouquet::new)
-                    .collect(Collectors.toList());
-            addBouquetsToOrder(order, bouquets);
-        }
-
-        if (orderDTO.getUser() != null) {
-            User user = new User(orderDTO.getUser());
-            addUserToOrder(order, user);
-        }
-
-        return orderRepository.save(order);
-    }
-
-    @Transactional
     public Order delete(Long id) {
         Order order = findById(id);
         orderRepository.clearBouquets(id);

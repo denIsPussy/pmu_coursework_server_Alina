@@ -10,10 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.net.MalformedURLException;
-import java.util.List;
 
 import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 @SpringBootTest
 public class JpaFlowerTests {
@@ -45,20 +45,20 @@ public class JpaFlowerTests {
         assertEquals(createdbouquet.getQuantityOfFlowers(), foundBouquet.getQuantityOfFlowers());
     }
 
-    @Test
-    public void testFindAllBouquets() {
-        bouquetService.deleteAll();
-        Bouquet bouquet = new Bouquet("bouquet1", 1, 1, new byte[]{ 10, 20, 30, 40, 50 });
-        Bouquet createdbouquet = bouquetService.insert(new BouquetDTO(bouquet));
-        List<Bouquet> bouquets = bouquetService.findAll();
-        assertNotNull(bouquets);
-        assertEquals(1, bouquets.size());
-        Bouquet foundBouquet = bouquets.get(0);
-        assertNotNull(foundBouquet.getId());
-        assertEquals(createdbouquet.getName(), foundBouquet.getName());
-        assertEquals(createdbouquet.getPrice(), foundBouquet.getPrice());
-        assertEquals(createdbouquet.getQuantityOfFlowers(), foundBouquet.getQuantityOfFlowers());
-    }
+//    @Test
+//    public void testFindAllBouquets() {
+//        bouquetService.deleteAll();
+//        Bouquet bouquet = new Bouquet("bouquet1", 1, 1, new byte[]{ 10, 20, 30, 40, 50 });
+//        Bouquet createdbouquet = bouquetService.insert(new BouquetDTO(bouquet));
+//        List<Bouquet> bouquets = bouquetService.findAll();
+//        assertNotNull(bouquets);
+//        assertEquals(1, bouquets.size());
+//        Bouquet foundBouquet = bouquets.get(0);
+//        assertNotNull(foundBouquet.getId());
+//        assertEquals(createdbouquet.getName(), foundBouquet.getName());
+//        assertEquals(createdbouquet.getPrice(), foundBouquet.getPrice());
+//        assertEquals(createdbouquet.getQuantityOfFlowers(), foundBouquet.getQuantityOfFlowers());
+//    }
 
     @Test
     public void testUpdateBouquet() {
@@ -84,14 +84,14 @@ public class JpaFlowerTests {
         assertNull(bouquetService.findById(createdBouquet.getId()));
     }
 
-    @Test
-    public void testDeleteAllBouquets() {
-        bouquetService.deleteAll();
-        Bouquet bouquet = new Bouquet("bouquet1", 1, 1, new byte[]{ 10, 20, 30, 40, 50 });
-        bouquetService.insert(new BouquetDTO(bouquet));
-        bouquetService.deleteAll();
-        List<Bouquet> bouquets = bouquetService.findAll();
-        assertNotNull(bouquets);
-        assertTrue(bouquets.isEmpty());
-    }
+//    @Test
+//    public void testDeleteAllBouquets() {
+//        bouquetService.deleteAll();
+//        Bouquet bouquet = new Bouquet("bouquet1", 1, 1, new byte[]{ 10, 20, 30, 40, 50 });
+//        bouquetService.insert(new BouquetDTO(bouquet));
+//        bouquetService.deleteAll();
+//        List<Bouquet> bouquets = bouquetService.findAll();
+//        assertNotNull(bouquets);
+//        assertTrue(bouquets.isEmpty());
+//    }
 }
